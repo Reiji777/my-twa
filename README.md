@@ -1,5 +1,5 @@
 # Telegram Mini app + TON Connect Demo
-- The demo is based on: https://ton-community.github.io/tutorials/03-client/
+- The demo is based on the following tutorial: https://ton-community.github.io/tutorials/03-client/
 
 ## Reference
 - Telegram mini app SDK: https://core.telegram.org/bots/webapps
