@@ -4,8 +4,8 @@
 ## Reference
 - Telegram mini app SDK: https://core.telegram.org/bots/webapps
 - TON Connect & Set up: https://docs.ton.org/develop/dapps/ton-connect/manifest
-- Example: https://github.com/telegram-mini-apps-dev/vanilla-js-boilerplate/tree/master
-- Example 2: https://docs.ton.org/develop/dapps/telegram-apps/app-examples
+- Some key concepts of Telegram mini app: https://docs.telegram-mini-apps.com/platform/about-platform
+- More boilerplate examples: https://docs.ton.org/develop/dapps/telegram-apps/app-examples
 
 
 ## Commands
