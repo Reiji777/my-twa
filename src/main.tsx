@@ -6,10 +6,10 @@ import './index.css';
 
 // Initialize mini app
 // https://core.telegram.org/bots/webapps
-
 // ready() needs to be called as early as possible
 WebApp.ready();
 // expand() is needed to display the mini app fullscreen
+// https://docs.telegram-mini-apps.com/platform/functionality/viewport
 WebApp.expand();
 
 
