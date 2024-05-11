@@ -1,10 +1,13 @@
 import "./App.css";
+// import { useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useCounterContract } from "./hooks/useCounterContract";
 
 const shareURI = "https://t.me/share/url?url=";
 const appURI = "t.me/PlayLuckyBot/demo";
+const botURI = "https://t.me/PlayLuckyBot";
+const vaultURI = "https://t.me/ton2048gamebot/vault";
 
 function App() {
   const { value, address } = useCounterContract();
@@ -14,8 +17,11 @@ function App() {
   const tgUserName = initData?.user?.username;
   const invitedBy = initData?.start_param;
 
+  // useEffect(() => {
+  //   window.scrollTo(0, 1);}, [])
+
   return (
-    <div className="App">
+    <div className="App wrapper">
       <div className="Container">
         <div className="Card">
           <b>Telegram ID</b>
@@ -34,17 +40,35 @@ function App() {
           onClick={() => {
             // startapp as payload for direct link mini apps
             // https://core.telegram.org/bots/webapps#direct-link-mini-apps
-            const referralURI = tgUserName
-              ? `${appURI}?startapp=${tgUserName}`
-              : appURI;
+            const referralURI = encodeURIComponent(
+              tgUserName ? `${appURI}?startapp=${tgUserName}` : appURI
+            );
             // share feature: https://core.telegram.org/widgets/share
             // From SDK 7.0, openTelegramLink no longer closes the mini app, which enables in-app sharing
             WebApp.openTelegramLink(
-              shareURI.concat(referralURI, "&text=").concat("Share testing...")
+              shareURI
+                .concat(referralURI, encodeURIComponent("&text="))
+                .concat(encodeURIComponent("Share testing..."))
             );
           }}
         >
           Share
+        </div>
+        <div
+          className="Button"
+          onClick={() => {
+            WebApp.openTelegramLink(botURI);
+          }}
+        >
+          Subscribe Bot
+        </div>
+        <div
+          className="Button"
+          onClick={() => {
+            WebApp.openTelegramLink(vaultURI);
+          }}
+        >
+          Open Vault
         </div>
       </div>
       <div className="Container">
