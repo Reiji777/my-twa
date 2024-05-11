@@ -12,23 +12,48 @@
       }
     </style> -->
     <style>
+      html {
+        width: 100%;
+      }
+
       body {
-        height: 100vh;
+        margin: 0;
         overflow: hidden;
       }
 
-      .root-container {
+      #root,
+      body {
         height: 100vh;
-        overflow-y: auto;
+        position: relative;
+        width: 100%;
+      }
+
+      #root {
+        -ms-overflow-style: none;
+        min-height: 100%;
         overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: none;
+      }
+
+      #root::-webkit-scrollbar {
+        display: none;
+      }
+
+      .full-size-img img {
+        height: 100%;
+        width: 100%;
+      }
+
+      .wrapper {
+        min-height: 100.01%;
+        width: 100%;
       }
     </style>
-    <script type="module" crossorigin src="/my-twa/assets/index-D5j6VD7D.js"></script>
+    <script type="module" crossorigin src="/my-twa/assets/index--hoR23s5.js"></script>
     <link rel="stylesheet" crossorigin href="/my-twa/assets/index-uDItqbEC.css">
   </head>
   <body>
-    <div class="root-container">
-      <div id="root"></div>
-    </div>
+    <div id="root"></div>
   </body>
 </html>
