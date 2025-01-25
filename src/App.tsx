@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./App.css";
 // import { useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
@@ -9,8 +10,7 @@ const appURI = "t.me/PlayLuckyBot/demo";
 const botURI = "https://t.me/PlayLuckyBot";
 const vaultURI = "https://t.me/ton2048gamebot/vault";
 const imageAssetURL = "https://i.imgur.com/9mOyJa2.jpeg";
-const storyAssetURL =
-  "https://rr1---sn-4ox-ixal.googlevideo.com/videoplayback?expire=1722683987&ei=872tZqL7KNmRv_IP0fblyQQ&ip=193.9.158.234&id=o-AP6idbPOftyA7oRlH-9-ufIRuTbzk7vPfoBYeg--Hm9z&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=Zk&mm=31%2C29&mn=sn-4ox-ixal%2Csn-ixh7yn7e&ms=au%2Crdu&mv=u&mvi=1&pl=24&bui=AXc671JOdB5CjEAcq76Wi-PYxHlDt-HsN0dluP9ep6IZyyor4G69pToD_HNJHLes9t1o6mZ22DJnETs3&vprv=1&svpuc=1&mime=video%2Fmp4&ns=_ojE2EgSaaA7PHp7DZcwGaEQ&rqh=1&gir=yes&clen=1200219&ratebypass=yes&dur=17.301&lmt=1720670072585078&mt=1722661621&fvip=3&lmw=1&c=TVHTML5&sefc=1&txp=5530434&n=7Hp9Ai6Qjlomgw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAJsLj0u0LcNE8tQYdTIRulBZW6eU1xjXhM0ToOdC8R49AiA5KlphTdGVgJxWb9m71lhpCtUz_TV7I7-d4HIVk9FMSQ%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl&lsig=AGtxev0wRQIhAPqUddUgG9Fy0klX1n0PwDWfB0ABw7t-6E9HUWSXwf18AiAsQP0uN6PFWyz0STSKG_HVlyPfA-rzY4vzLC-Hv9HRdQ%3D%3D&title=4%E4%BA%BA%E7%8E%A9%EF%BC%81%E7%9C%9F%E7%B4%A7%E5%BC%A0%EF%BC%81%EF%BC%81|||%E6%89%8B%E6%8C%87%E5%A4%B4%E6%80%8E%E4%B9%88%E9%83%BD%E5%87%BA%E6%B1%97%E4%BA%86%EF%BC%81";
+const shareMessageId = "TqWnqGCrJVqIGpzV";
 
 function App() {
   const { value, address } = useCounterContract();
@@ -19,9 +19,13 @@ function App() {
   const tgId = initData?.user?.id;
   const tgUserName = initData?.user?.username;
   const invitedBy = initData?.start_param;
+  const [homeScreenStatus, setHomeScreenStatus] = useState("");
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 1);}, [])
+  useEffect(() => {
+    WebApp.checkHomeScreenStatus((status) => setHomeScreenStatus(status));
+    WebApp.onEvent("homeScreenAdded", () => setHomeScreenStatus("added"));
+    WebApp.onEvent("shareMessageSent", () => WebApp.showAlert(`Message sent: ${shareMessageId}`));
+  }, []);
 
   return (
     <div className="App wrapper">
@@ -31,6 +35,8 @@ function App() {
           <div>{tgId}</div>
           <b>Username</b>
           <div>{tgUserName}</div>
+          <b>Homescreen status</b>
+          <div>{homeScreenStatus}</div>
         </div>
         {invitedBy && (
           <div className="Card">
@@ -53,7 +59,15 @@ function App() {
             WebApp.openTelegramLink(`${shareURI}${referralURI}&text=${text}`);
           }}
         >
-          Share
+          Old Share
+        </div>
+        <div
+          className="Button"
+          onClick={() => {
+            WebApp.shareMessage(shareMessageId);
+          }}
+        >
+          New Share
         </div>
         <div
           className="Button"
@@ -94,10 +108,20 @@ function App() {
         <div
           className="Button"
           onClick={() => {
-            WebApp.shareToStory(storyAssetURL, { text: "Check out my story" });
+            WebApp.isFullscreen
+              ? WebApp.exitFullscreen()
+              : WebApp.requestFullscreen();
           }}
         >
-          Post Story
+          Toggle Fullscreen
+        </div>
+        <div
+          className="Button"
+          onClick={() => {
+            WebApp.addToHomeScreen();
+          }}
+        >
+          Add to Homescreen
         </div>
       </div>
       <div className="Container">
